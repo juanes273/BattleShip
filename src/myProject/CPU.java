@@ -6,30 +6,54 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * This class is used for the functional part of the opponent(CPU)
+ * @version v.1.0.0 date:21/03/2022
+ * @autor Juan Esteban Brand Tovar - Jose Miguel Becerra Casierra - Juan Pablo Pantoja Guitierrez
+ */
+
 public class CPU {
     int[][] tableroPpal = new int[10][10];
+    int[][] tableroPpalInicial = new int[10][10];
     int fragatasF = 4, destructoresF = 3, submarinosF = 2, portaavionesF = 1, posicionando = 0, seleccionCPU, destruidos;
     boolean fragatas = true, destructores = false, submarinos = false, portaaviones = false, etapaPosicion = true;
     int[] anterior = new int[4];
-    String matrizFinal = "";
+    String matrizFinal = " 1 = agua \n 2 = fragata \n 3 = destructor \n 4 = submarino \n 5 = portaaviones \n";
     ArrayList<Integer> posiblesD = new ArrayList<>();
     ArrayList<Integer> posiblesS = new ArrayList<>();
     ArrayList<Integer> posiblesP = new ArrayList<>();
     ArrayList<Integer> barcosEnUso = new ArrayList<>();
 
 
+    /**
+     * Saves the first matrix of the position of the enemy ships
+     */
+    public void igualarTablero(){
+            for(int i=0;i<tableroPpal.length;i++) {
+                for (int j = 0; j < tableroPpal.length; j++) {
+                    tableroPpalInicial[i][j] = tableroPpal[i][j];
+                }
+            }
+    }
+
+    /**
+     * Shows the enemy territory as a matrix
+     */
     public void imprimir() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                matrizFinal += tableroPpal[i][j];
+                matrizFinal += tableroPpalInicial[j][i];
                 matrizFinal += "    ";
             }
             matrizFinal += "\n";
         }
-        JOptionPane.showMessageDialog(null, matrizFinal);
-        matrizFinal = "";
+        JOptionPane.showMessageDialog(null, matrizFinal, "Barcos enemigos inicial", 1);
+        matrizFinal = " 1 = agua \n 2 = fragata \n 3 = destructor \n 4 = submarino \n 5 = portaaviones \n";
     }
 
+    /**
+     * Gets a random position to place the enemy ships
+     */
     public int getSeleccionCPU() {
         Random aleatorio = new Random();
         if (posicionando != 0 && destructores) {
@@ -55,6 +79,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Place the enemy ships dependind of the getSeleccionCPU value
+     */
     public void posicionarCPU() {
         if (!portaaviones) {
             while (!pararCPU()) {
@@ -82,6 +109,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Function that stops posicionarCPU function when all the ships are positioned
+     */
     public boolean pararCPU() {
         if (fragatasF == 0 && destructoresF == 0 && submarinosF == 0 && portaavionesF == 0) {
             return true;
@@ -91,6 +121,9 @@ public class CPU {
     }
 
 
+    /**
+     * Initialize tableroPpal values to 1(Water)
+     */
     public void tablerosIniciales() {
         for (int i = 0; i < tableroPpal.length; i++) {
             for (int j = 0; j < tableroPpal[0].length; j++) {
@@ -99,6 +132,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Function that puts the ships on the enemy territory
+     */
     public void posicionar(int X, int Y) {
         if (etapaPosicion) {
             verificarBarco();
@@ -293,6 +329,9 @@ public class CPU {
         }
     }
 
+    /**
+     * verify if the selected position is a empty position to place a ship (Water)
+     */
     public boolean verificarAgua(int X, int Y) {
         if (tableroPpal[X][Y] == 1) {
             return true;
@@ -301,6 +340,9 @@ public class CPU {
         }
     }
 
+    /**
+     * verify which ship is being positioned
+     */
     public void verificarBarco() {
         if (fragatasF == 0) {
             fragatas = false;
@@ -319,10 +361,10 @@ public class CPU {
         }
     }
 
-    public void estado() {
-        JOptionPane.showMessageDialog(null, "restantes" + fragatasF + destructoresF + submarinosF + portaavionesF + portaaviones + submarinos);
-    }
 
+    /**
+     * Verify possibilities to put the second part of the ship(destructores)
+     */
     public boolean verificarDestructor(int X, int Y) { // 6 y 4
         if (posiblesD.isEmpty() == true) {
             if (((X + 1) <= 9)) {
@@ -349,6 +391,9 @@ public class CPU {
         return !posiblesD.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the second and third part of the ship(submarinos)
+     */
     public boolean verificarSubmarino(int X, int Y) {
         if (posiblesS.isEmpty() == true) {
             if (((X + 1) <= 9) && ((X + 2) <= 9)) {
@@ -379,6 +424,9 @@ public class CPU {
         return !posiblesS.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the second,third and four part of the ship(portaaviones)
+     */
     public boolean verificarPortaaviones(int X, int Y) { // 6 y 4
         if (posiblesP.isEmpty() == true) {
             if ((X + 1) <= 9 && (X + 2) <= 9 && (X + 3) <= 9) {
@@ -405,6 +453,9 @@ public class CPU {
         return !posiblesP.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(destructor)
+     */
     public boolean verificarDestructor2(int X, int Y) {
         int indice = posiblesD.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -414,6 +465,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(submarino)
+     */
     public boolean verificarSubmarino2(int X, int Y) {
         int indice = posiblesS.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -423,6 +477,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(destructor)
+     */
     public boolean verificarPortaaviones2(int X, int Y) {
         int indice = posiblesP.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -432,6 +489,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Change the values of the matrix to makes us know if the ship has been shot
+     */
     public void atacar(int X, int Y) {
         verificarHundido(X, Y);
         int numero = Integer.parseInt(String.valueOf(X) + String.valueOf(Y));
@@ -453,6 +513,9 @@ public class CPU {
         verificarHundido(X, Y);
     }
 
+    /**
+     * Change the values of the matrix to makes us know if the ship has been sunken
+     */
     public void verificarHundido(int X, int Y) {
         int numero = Integer.parseInt(String.valueOf(X) + String.valueOf(Y));
         int posicion = barcosEnUso.indexOf(numero);
@@ -1110,6 +1173,9 @@ public class CPU {
         }
     }
 
+    /**
+     * Check how many ships has been sunken
+     */
     public void verDestruidos() {
         destruidos = 0;
         for (int i = 0; i < tableroPpal.length; i++) {
@@ -1121,12 +1187,18 @@ public class CPU {
         }
     }
 
+    /**
+     * Show us if the player has won
+     */
     public void ganadorJugador() {
         if (destruidos == 20) {
             JOptionPane.showMessageDialog(null, "Ganaste");
         }
     }
 
+    /**
+     * Getters
+     */
     public int[][] getTableroPpal() {
         return tableroPpal;
     }

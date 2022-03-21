@@ -17,6 +17,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+/**
+ * This class is used for the visual part of the project
+ * @autor Juan Esteban Brand Tovar - Jose Miguel Becerra Casierra - Juan Pablo Pantoja Guitierrez
+ * @version v.1.0.0 date:21/03/2022
+ */
+
 public class GUIGridBagLayout extends JFrame {
     public static final String MENSAJE_INICIO = "Bienvenido a BattleShip \n"
             + "Oprime el boton 'Jugar' para iniciar el juego"
@@ -161,7 +167,7 @@ public class GUIGridBagLayout extends JFrame {
         panelAliado.setBorder(BorderFactory.createTitledBorder("Tu territorio (Tablero de posición)"));
         panelAliado.setLayout(null);
         for (int i = 0; i < (label.length); i++) {
-            label[i].setText("" + (i));
+            //label[i].setText("" + (i));
             label[i].setBorder(border);
             label[i].setHorizontalAlignment(SwingConstants.CENTER);
             label[i].setBounds(new Rectangle(equis - 20, (ye) * 25, 25, 25));
@@ -180,7 +186,7 @@ public class GUIGridBagLayout extends JFrame {
         panelEnemigo.setBorder(BorderFactory.createTitledBorder("Territorio enemigo (Tablero principal)"));
         panelEnemigo.setLayout(null);
         for (int i = 0; i < (label2.length); i++) {
-            label2[i].setText("" + (i));
+            //label2[i].setText("" + (i));
             label2[i].setBorder(border);
             label2[i].setHorizontalAlignment(SwingConstants.CENTER);
             label2[i].setBounds(new Rectangle(equiz - 300, (ge) * 25, 25, 25));
@@ -254,13 +260,13 @@ public class GUIGridBagLayout extends JFrame {
 
                 modelGame.llenarAtaque();
                 cpu.posicionarCPU();
-
+                cpu.igualarTablero();
             }
             if (e.getSource() == salir) {
                 cpu.imprimir();
             }
             if (e.getSource() == ayuda) {
-                JOptionPane.showMessageDialog(null, MENSAJE_INICIO);
+                JOptionPane.showMessageDialog(null, MENSAJE_INICIO,"Instrucciones",1);
             }
         }
 
@@ -392,8 +398,8 @@ public class GUIGridBagLayout extends JFrame {
                                 label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setOpaque(true);
                             }
                             if (tableroPpal[x][y] == 15) {
-                                label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setBackground(Color.BLACK);
-                                label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setOpaque(true);
+                                  label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setForeground(Color.RED);
+                                  label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setText("X");
                             }
                             if (tableroPpal[x][y] > 15 && tableroPpal[x][y] < 100) {
                                 label2[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setBackground(Color.YELLOW);
@@ -414,8 +420,8 @@ public class GUIGridBagLayout extends JFrame {
                                 label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setOpaque(true);
                             }
                             if (tableroPos[x][y] == 15) {
-                                label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setBackground(Color.BLACK);
-                                label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setOpaque(true);
+                                label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setForeground(Color.RED);
+                                label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setText("X");
                             }
                             if (tableroPos[x][y] > 15 && tableroPpal[x][y] < 100) {
                                 label[Integer.parseInt(String.valueOf(x) + String.valueOf(y))].setBackground(Color.YELLOW);

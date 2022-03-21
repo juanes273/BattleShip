@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.*;
 
+/**
+ * This class is used for the functional part of the user
+ * @version v.1.0.0 date:21/03/2022
+ * @autor Juan Esteban Brand Tovar - Jose Miguel Becerra Casierra - Juan Pablo Pantoja Guitierrez
+ */
+
 public class ModelGame {
 
     int[][] tableroPos = new int[10][10];
@@ -19,12 +25,19 @@ public class ModelGame {
     ArrayList<Integer> ataquesPosibles = new ArrayList<>();
 
 
+    /**
+     * Initialize ataquesPosibles
+     */
+
     public void llenarAtaque() {
         for (int i = 0; i <= 99; i++) {
             ataquesPosibles.add(i);
         }
     }
 
+    /**
+     * Select a random value for the movement of the opponet
+     */
     public int seleccionarAtaque() {
         Random aleatorio = new Random();
 
@@ -35,6 +48,10 @@ public class ModelGame {
         return eleccion;
     }
 
+
+    /**
+     * Function that uses the seleccionarAtaque value to attack
+     */
     public void ataqueCPU() {
         int eleccion = seleccionarAtaque();
 
@@ -53,7 +70,9 @@ public class ModelGame {
         }
     }
 
-
+    /**
+     * Initialize tableroPos values to 1(Water)
+     */
     public void tablerosIniciales() {
         for (int i = 0; i < tableroPos.length; i++) {
             for (int j = 0; j < tableroPos[0].length; j++) {
@@ -62,6 +81,10 @@ public class ModelGame {
         }
     }
 
+
+    /**
+     * Shows the ally territory as a matrix
+     */
     public void imprimir() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -74,6 +97,9 @@ public class ModelGame {
         matrizFinal = "";
     }
 
+    /**
+     * Function that puts the ships on the ally territory
+     */
     public void posicionar(int X, int Y) {
         if (etapaPosicion) {
             verificarBarco();
@@ -262,6 +288,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * verify if the selected position is a empty position to place a ship (Water)
+     */
     public boolean verificarAgua(int X, int Y) {
         if (tableroPos[X][Y] == 1) {
             return true;
@@ -270,6 +299,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * verify which ship is being positioned
+     */
     public void verificarBarco() {
         if (fragatasF == 0) {
             fragatas = false;
@@ -288,6 +320,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Verify possibilities to put the second part of the ship(destructores)
+     */
     public boolean verificarDestructor(int X, int Y) { // 6 y 4
         if (posiblesD.isEmpty() == true) {
             if (((X + 1) <= 9)) {
@@ -314,6 +349,9 @@ public class ModelGame {
         return !posiblesD.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the second and third part of the ship(submarinos)
+     */
     public boolean verificarSubmarino(int X, int Y) {
         if (posiblesS.isEmpty() == true) {
             if (((X + 1) <= 9) && ((X + 2) <= 9)) {
@@ -344,6 +382,9 @@ public class ModelGame {
         return !posiblesS.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the second,third and four part of the ship(portaaviones)
+     */
     public boolean verificarPortaaviones(int X, int Y) { // 6 y 4
         if (posiblesP.isEmpty() == true) {
             if ((X + 1) <= 9 && (X + 2) <= 9 && (X + 3) <= 9) {
@@ -370,6 +411,9 @@ public class ModelGame {
         return !posiblesP.isEmpty();
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(destructor)
+     */
     public boolean verificarDestructor2(int X, int Y) {
         int indice = posiblesD.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -379,6 +423,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(submarino)
+     */
     public boolean verificarSubmarino2(int X, int Y) {
         int indice = posiblesS.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -388,6 +435,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Verify possibilities to put the part of the ship(destructor)
+     */
     public boolean verificarPortaaviones2(int X, int Y) {
         int indice = posiblesP.indexOf(Integer.parseInt(String.valueOf(X) + String.valueOf(Y)));
         if (indice != -1) {
@@ -397,6 +447,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Change the values of the matrix to makes us know if the ship has been shot
+     */
     public void atacar(int X, int Y) {
         verificarHundido(X, Y);
         if (tableroPos[X][Y] == 1) {
@@ -417,6 +470,9 @@ public class ModelGame {
         verificarHundido(X, Y);
     }
 
+    /**
+     * Change the values of the matrix to makes us know if the ship has been sunken
+     */
     public void verificarHundido(int X, int Y) {
         int numero = Integer.parseInt(String.valueOf(X) + String.valueOf(Y));
         int posicion = barcosEnUso.indexOf(numero);
@@ -1027,6 +1083,9 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Check how many ships has been sunken
+     */
     public void verDestruidos() {
         destruidos = 0;
         for (int i = 0; i < tableroPos.length; i++) {
@@ -1038,13 +1097,18 @@ public class ModelGame {
         }
     }
 
+    /**
+     * Show us if the CPU has won
+     */
     public void ganadorCPU() {
         if (destruidos == 20) {
             JOptionPane.showMessageDialog(null, "Ganó la maquina");
         }
     }
 
-
+    /**
+     * Getters
+     */
     public int[][] getTableroPos() {
         return tableroPos;
     }
